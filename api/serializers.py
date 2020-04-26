@@ -11,9 +11,10 @@ class QuestionSer(serializers.Serializer):
     user = UserSer()
     title = serializers.CharField()
     text = serializers.CharField()
+    likes = serializers.IntegerField()
 
 class AnswerSer(serializers.Serializer):
     id = serializers.IntegerField(required=False)
     user = UserSer() 
     text = serializers.CharField() 
-    question = serializers.CharField()     
+    question = QuestionSer()   

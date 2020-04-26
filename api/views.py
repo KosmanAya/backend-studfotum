@@ -22,9 +22,24 @@ def questions(request):
         return JsonResponse(serializer.data, safe=False)
 
 
+@api_view(['PUT',])
+def like(request, id):
+    question = Question.objects.get(id=id)
+    if request.method == 'PUT':
+        question.likes = question.likes + 1
+        question.save()
+        return JsonResponse({"":""},safe=False)
+
+
+class AdminView(APIView):
+    def delete(self, request, id):
+        question = Question.objects.get(id=id)
+        question.delete()
+        return JsonResponse({"":""},safe=False)
+
 class AnswerVi(APIView):
     def post(self, request):
-        question = Question.objects.get(id=request.data.get('question'))
+        question = Question.objects.get(id=request.data.get('id'))
         user = User.objects.get(name=request.data.get('author'))
         Answer.objects.create(
             question = question,
